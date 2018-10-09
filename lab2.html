@@ -9,20 +9,36 @@
     <title>lab2</title>
 </head>
 <body>
-    <canvas>
-
-    </canvas>
 <section class="main-content">
-
+        <canvas width="200" height="200" id="can">
+            
+            </canvas>
 </section>
-<!--  canvas getimagedata
+<script>
+        const canvasElem = document.getElementById('can');
+                const ctx = canvasElem.getContext('2d');
+                
+                ctx.font = "italic bold 30px Arial";
+                ctx.textBaseline = "middle";
+                ctx.fillText('Ala ma kota', 0, 30);
+                
+                ctx.font = "italic bold 20px Arial";
+                ctx.textBaseline = "bottom";
+                ctx.strokeText('Ala ma kota', 30, 70);
+                
+                ctx.font = "normal 10px Arial";
+                ctx.textBaseline = "top";
+                ctx.strokeText('Ala ma kota', 130, 80);
+        </script>
+<!--  http://kursjs.pl/kurs/canvas/canvas.php
+    canvas getimagedata
              putimagedata -->
     <!--jasnosc    uweliczenie wseh 3, no bolshuju bolsze, a meńszuju meńsze
         kontrast   2 wida: jasnij i temnij. jasnij >=128 u 1 iz cvetow.
         nasecenia  
         rozmycze          brat po 10 px i usredniat
         rysowanie myszą   ctx.fillStyle('color')
-                          cx.fill
+                          ctx.fill
         zmiana kolorow zmiana pęzla -->
 </body>
 </html>
