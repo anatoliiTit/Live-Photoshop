@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 
-    <title>lab2</title>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+
+        <title>lab2</title>
 </head>
+
 <body>
-<section class="main-content">
-        <canvas width="200" height="200" id="can">
-            
-            </canvas>
-</section>
-<script>
-        const canvasElem = document.getElementById('can');
-                const ctx = canvasElem.getContext('2d');
-                
-                ctx.font = "italic bold 30px Arial";
-                ctx.textBaseline = "middle";
-                ctx.fillText('Ala ma kota', 0, 30);
-                
-                ctx.font = "italic bold 20px Arial";
-                ctx.textBaseline = "bottom";
-                ctx.strokeText('Ala ma kota', 30, 70);
-                
-                ctx.font = "normal 10px Arial";
-                ctx.textBaseline = "top";
-                ctx.strokeText('Ala ma kota', 130, 80);
-        </script>
-<!--  http://kursjs.pl/kurs/canvas/canvas.php
+         <nav>
+                <input type="file" name="imageLoader" id="imageLoader">
+        </nav> 
+
+        <section class="main-content">
+                <div class="tools"><p>tools</p></div>
+                <div class="canvas-box">
+                <canvas id="imageCanvas"></canvas>
+                <script>
+                        var imageLoader = document.getElementById('imageLoader');
+                        imageLoader.addEventListener('change', handleImage, false);
+                        var canvas = document.getElementById('imageCanvas');
+                        var ctx = canvas.getContext('2d');
+                        function handleImage(e) {
+                                var reader = new FileReader();
+                                reader.onload = function (event) {
+                                        var img = new Image();
+                                        img.onload = function () {
+                                                canvas.width = img.width;
+                                                canvas.height = img.height;
+                                                ctx.drawImage(img, 0, 0);
+                                        }
+                                        img.src = event.target.result;
+                                }
+                                reader.readAsDataURL(e.target.files[0]);
+                        }
+                </script>
+                </div>
+                <div>tools 2</div>
+        </section>
+        <!--  http://kursjs.pl/kurs/canvas/canvas.php
     canvas getimagedata
              putimagedata -->
-    <!--jasnosc    uweliczenie wseh 3, no bolshuju bolsze, a meńszuju meńsze
+        <!--jasnosc    uweliczenie wseh 3, no bolshuju bolsze, a meńszuju meńsze
         kontrast   2 wida: jasnij i temnij. jasnij >=128 u 1 iz cvetow.
         nasecenia  
         rozmycze          brat po 10 px i usredniat
@@ -41,4 +52,5 @@
                           ctx.fill
         zmiana kolorow zmiana pęzla -->
 </body>
+
 </html>

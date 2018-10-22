@@ -1,20 +1,24 @@
 body{
-    display: flex;
+    margin: auto;
+}
+nav{
+    margin: auto;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 .main-content{
-    width: 1000px;
-    height:600px;
+    margin: auto;
     padding: 10px;
     position: relative;
-    border: solid 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
 }
-.canvas{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.tools{
+    text-align: center;
+}
+.canvas-box{
+    grid-column-start: 2;
+    grid-column-end: 7;
+    text-align: center;
 }
