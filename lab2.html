@@ -11,33 +11,194 @@
 </head>
 
 <body>
-         <nav>
+        <nav>
                 <input type="file" name="imageLoader" id="imageLoader">
-        </nav> 
+
+
+        </nav>
 
         <section class="main-content">
-                <div class="tools"><p>tools</p></div>
+                <div class="tools">
+                        <div class="slider-wrapper">
+                                <!-- <form oninput="result.value=parseInt(paintSize.value)"> -->
+                                        <input id="paintSize" type="range" class="paint-size" min="1" max="50" value="5">
+                        </div>
+                        <output name="result" for="paintSize" class="paint-size-val">5</output>
+                        <input type="color" class="paint-color">
+                        <div class="paint-buttons-cnt">
+                                <button data-mode="draw" class="button-mode" type="button"></button>
+                        </div>
+                </div>
                 <div class="canvas-box">
-                <canvas id="imageCanvas"></canvas>
-                <script>
-                        var imageLoader = document.getElementById('imageLoader');
-                        imageLoader.addEventListener('change', handleImage, false);
-                        var canvas = document.getElementById('imageCanvas');
-                        var ctx = canvas.getContext('2d');
-                        function handleImage(e) {
-                                var reader = new FileReader();
-                                reader.onload = function (event) {
-                                        var img = new Image();
-                                        img.onload = function () {
-                                                canvas.width = img.width;
-                                                canvas.height = img.height;
-                                                ctx.drawImage(img, 0, 0);
+                        <canvas id="imageCanvas"></canvas>
+                        <script>
+                                var paint = {
+
+                                        changeSize : function (e) {
+                                                //wartość wyświetlana przy input:range
+                                                this.sizeElemVal.innerText = e.target.value;
+                                                //zmieniamy wielkość rysowania
+                                                this.ctx.lineWidth = e.target.value;
+                                        },
+
+                                        changeColor : function (e) {
+                                                //zmieniamy kolor rysowania
+                                                const color = this.colorElem.value;
+                                                this.ctx.strokeStyle = color;
+                                        },
+
+                                        enableMode : function (mode) {
+                                                //sprawdzamy czy włączany tryb jest poprawny
+                                                if (this.avaibleMode.indexOf(mode) !== -1) {
+                                                        this.mode = mode;
+                                                }
+                                        },
+
+                                        getMousePosition : function(e){
+                                                const mouseX = e.pageX - this.getElementPos(this.canvasElem).left;
+                                                const mouseY = e.pageY - this.getElementPos(this.canvasElem).top;
+                                                return {
+                                                x: mouseX,
+                                                y: mouseY
+                                                };
+                                        },
+
+                                         getElementPos: function(obj) {
+                                                let top = 0;
+                                                let left = 0;
+                                                while (obj && obj.tagName != "BODY") {
+                                                top += obj.offsetTop - obj.scrollTop;
+                                                left += obj.offsetLeft - obj.scrollLeft;
+                                                obj = obj.offsetParent;
+                                                }
+                                                return {
+                                                top: top,
+                                                left: left
+                                                };
+                                        },
+
+                                         mouseEnable : function(e) {
+                                                this.canDraw = true;
+                                                this.ctx.beginPath();
+                                                this.ctx.moveTo(this.startX, this.startY);
+                                        },
+
+                                        mouseDisable : function(e) {
+                                                this.canDraw = false;
+                                        },
+
+                                        mouseMove : function(e) {
+                                                if (this.canDraw) {
+                                                const mousePos = this.getMousePosition(e);
+                                                if (this.mode === 'draw') {
+                                                        this.ctx.lineTo(mousePos.x, mousePos.y);
+                                                        this.ctx.stroke();
+                                                }
+                                                }
+                                        },
+
+                                        setupInitialCtx : function () {
+                                                
+                                                //początkowe ustawienia pędzla
+                                                this.ctx.lineWidth = this.sizeElem.value;
+                                                this.ctx.lineJoin = "round";
+                                                this.ctx.lineCap = "round";
+                                                this.ctx.strokeStyle = this.colorElem.value;
+                                        },
+
+                                        bindElements : function () {
+                                                //dla każdego elementu przypinamy metody bindem
+                                                //bo chcemy w nich mieć dostęp do naszego obiektu paint
+                                                this.sizeElem.addEventListener('change', this.changeSize.bind(this));
+                                                this.sizeElem.addEventListener('input', this.changeSize.bind(this));
+
+                                                this.colorElem.addEventListener('change', this.changeColor.bind(this))
+
+                                                this.canvasCnt.addEventListener('mousemove', this.mouseMove.bind(this));
+                                                this.canvasCnt.addEventListener('mouseup', this.mouseDisable.bind(this));
+                                                this.canvasCnt.addEventListener('mousedown', this.mouseEnable.bind(this));
+
+                                                this.canvasCnt.addEventListener('mousemove', this.mouseMove.bind(this));
+                                                this.canvasCnt.addEventListener('mouseup', this.mouseDisable.bind(this));
+                                                this.canvasCnt.addEventListener('mousedown', this.mouseEnable.bind(this));
+
+                                                //po kliknięciu w przycisk zmiany trybu rysowania
+                                                //wszystkim jego braciom wyłączamy klasę .active, a włączamy tylko temu klikniętemu
+                                                //dodatkowo ustawiamy tryb rysowania na pobrany z dataset.mode klikniętego przycisku
+                                                this.btnsMode.forEach(function (el) {
+                                                        el.addEventListener('click', function (e) {
+                                                                e.currentTarget.classList.add('active');
+                                                                this.mode = e.currentTarget.dataset.mode;
+
+                                                                this.btnsMode.forEach(function (el2) {
+
+                                                                        if (el2 !== e.currentTarget) {
+                                                                                el2.classList.remove('active');
+                                                                        }
+                                                                });
+                                                        }.bind(this));
+                                                }, this);
+                                        },
+
+                                        init : function () {
+                                                this.avaibleMode = ['draw', 'scieraczka',]; // scieraczka trzeba zrobic
+                                                var imageLoader = document.getElementById('imageLoader');
+                                                imageLoader.addEventListener('change', handleImage, false);
+                                                var canvas = document.getElementById('imageCanvas');
+                                                var ctx = canvas.getContext('2d');
+
+                                                function handleImage(e) {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function (event) {
+                                                                this.img = new Image();
+                                                                this.img.onload = function () {
+                                                                        canvas.width = this.img.width;
+                                                                        canvas.height = this.img.height;
+                                                                        ctx.drawImage(this.img, 0, 0);
+
+                                                                        //element pobierania wielkości pędzla
+                                                                        this.sizeElem = document.querySelector('.paint-size');
+                                                                        //element pokazujący wielkość pędzla
+                                                                        this.sizeElemVal = document.querySelector('.paint-size-val');
+                                                                        this.sizeElemVal.innerText = this.sizeElem.value;
+                                                                        //element do pobierania koloru
+                                                                        this.colorElem = document.querySelector('.paint-color');
+                                                                        //przyciski akcji - zamieniamy je na tablicę by łatwiej działać
+                                                                        this.btnsMode = [].slice.call(document.querySelectorAll('.paint-buttons-cnt .button-mode'));
+                                                                        //dla przycisku z trybem draw dodajemy klasę active
+                                                                        this.btnsMode.filter(function (el) {
+                                                                                return el.dataset.mode === 'draw'
+                                                                        })[0].classList.add('active')
+                                                                        //czy mozemy rysowac
+                                                                        this.canDraw = false;
+                                                                        this.mode = 'draw';
+                                                                        this.paint.setupInitialCtx();
+                                                                        this.paint.bindElements();
+                                                                        // var myImgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                                                        // for (let i = 0; i < myImgData.data.length; i += 4) {
+                                                                        //         if (myImgData.data[i] === 255) {
+                                                                        //                 myImgData.data[i] = 255;
+                                                                        //         }
+                                                                        //         if (myImgData.data[i + 1] === 245) {
+                                                                        //                 myImgData.data[i + 1] = 0;
+                                                                        //         }
+                                                                        //         if (myImgData.data[i + 2] === 104) {
+                                                                        //                 myImgData.data[i + 2] = 0;
+                                                                        //         }
+                                                                        // }
+                                                                        // ctx.putImageData(myImgData, 0, 0);
+                                                                }.bind(this)
+
+                                                                this.img.src = event.target.result;
+                                                        }
+                                                        reader.readAsDataURL(e.target.files[0]);
+                                                }
                                         }
-                                        img.src = event.target.result;
                                 }
-                                reader.readAsDataURL(e.target.files[0]);
-                        }
-                </script>
+
+                                paint.init();
+
+                        </script>
                 </div>
                 <div>tools 2</div>
         </section>
