@@ -1,0 +1,112 @@
+body 
+{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    display: flex;    
+    align-items: center;
+    background: white;
+    color: black;
+}
+
+canvas {
+    margin: 50px 0px;
+}
+
+.main-container {
+    margin-left: 20px;
+    border: 10px;
+    display: flex;
+    flex-direction:column;    
+    background: #3944a1;
+}
+
+.main-box {
+    display: flex;
+    flex-direction: column;
+}
+.main-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.paint-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.color-box {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.color-box input {
+    margin-left: 25px;
+}
+
+.color-box span {
+    font-weight: 700;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 10px 10px;
+    
+    
+}
+
+.load-img-box {
+    margin-top: 15px;
+}
+
+.load-img-box button {
+    margin-top: 5px;
+    margin-left: 90px;
+}
+
+.resetBtn {
+    margin-top: 40px;
+}
+
+#black {
+    color: black;
+}
+#grey {
+    color: grey;
+}
+#white {
+    color: white;
+}
+#red {
+    color: red;
+}
+#orange {
+    color: orange;
+}
+#yellow {
+    color: yellow;
+}
+#green {
+    color: green;
+}
+
+#blue {
+    color: blue;
+}
+
+#purple {
+    color: purple;
+}
+
+#brush {
+    margin-left: 23px;
+}

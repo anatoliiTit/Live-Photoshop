@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Live-Photoshop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="main-canvas" width="1000px" height="563px" ></canvas>
+
+    <div class="main-container">
+        <div class="main-box">
+            <div class="main-panel">
+                <p>Brightness</p>
+                <div class="slider-container">
+                    <input type="range" min="-50" max="50" id="brightness">
+                </div>
+            </div>
+            <div class="main-panel">
+                <p>Contrast</p>
+                <div class="slider-container">
+                        <input type="range" min="-100" max="100" id="contrast">
+                </div>
+            </div>
+            <div class="main-panel">
+                <p>Saturation</p>
+                <div class="slider-container">
+                    <input type="range" min="0" max="200" id="saturation">
+                </div>
+            </div>
+        </div>
+        <div class="paint-container">
+            <div class="color-box">
+                <input type="radio" name="color" id="radio_black" checked><span id="black">Black</span><br>
+                <input type="radio" name="color" id="radio_grey"><span id="grey">Grey</span><br>
+                <input type="radio" name="color" id="radio_white"><span id="white">White</span><br>
+            </div>
+            <div class="color-box">
+                <input type="radio" name="color" id="radio_red"><span id="red">Red</span><br>
+                <input type="radio" name="color" id="radio_orange"><span id="orange">Orange</span><br>
+                <input type="radio" name="color" id="radio_yellow"><span id="yellow">Yellow</span><br>
+            </div>
+            <div class="color-box">
+                <input type="radio" name="color" id="radio_green"><span id="green">Green</span><br>
+                <input type="radio" name="color" id="radio_blue"><span id="blue">Blue</span><br>
+                <input type="radio" name="color" id="radio_purple"><span id="purple">Purple</span><br>
+            </div>
+            <div class="color-box">
+                <div id="brush">Brush size:</div>
+                <input type="range" name="paintSize" id="sizeSlider" min="1" max="10">
+            </div>
+        </div>
+        <div class="options-container">
+            <div class="load-img-box">
+                <span>Enter image path:</span>
+                <input type="text" id="loadImgPath">
+                <button id="loadBtn">Load Image</button>
+            </div>
+            <div class="resetBtn">
+                <button id="resetBtn">Reset changes</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>    
+</body>
+</html>
